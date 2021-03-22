@@ -3,6 +3,10 @@
  */
 package edu.isu.cs2263.HW4;
 
+import com.google.common.graph.MutableNetwork;
+import com.google.common.graph.Network;
+import com.google.common.graph.NetworkBuilder;
+
 public class App {
 
     public static void main(String[] args) {
@@ -44,6 +48,40 @@ public class App {
         System.out.println(p3.accept(relVisit));
         System.out.println(p4.accept(relVisit));
         System.out.println(p5.accept(relVisit));
+
+        //Graphs
+        MutableNetwork<Person, String> networkList = NetworkBuilder.directed().build();
+
+        networkList.addNode(p1);
+        networkList.addNode(p2);
+        networkList.addNode(p3);
+        networkList.addNode(p4);
+        networkList.addNode(p5);
+
+        networkList.addEdge(p1, p2, (p1.name() + " is married to " + p2.name()));
+        networkList.addEdge(p3, p4, (p3.name() + " is married to " + p4.name()));
+        networkList.addEdge(p4, p5, (p4.name() + " is coworkers with " + p5.name()));
+        networkList.addEdge(p1, p5, (p1.name() + " is coworkers with " + p5.name()));
+        networkList.addEdge(p1, p4, (p1.name() + " is coworkers with " + p4.name()));
+
+        //System.out.println(networkList.asGraph().toString());
+
+        int married = 0;
+        int coworkers = 0;
+
+        for (String edge : networkList.edges()) {
+            System.out.println(edge);
+            if(edge.contains("married")) {
+                married++;
+            }
+            if(edge.contains("coworker")) {
+                coworkers++;
+            }
+        }
+
+        System.out.println("");
+        System.out.println("Coworkers: " + coworkers);
+        System.out.println("Married: " + married);
 
     }
 }
