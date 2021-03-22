@@ -4,11 +4,46 @@
 package edu.isu.cs2263.HW4;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+
+        RelationshipVisitor relVisit = new RelationshipVisitor();
+
+        //Create people
+        Person p1 = new Person(29, "Mary", "Buck");
+        Person p2 = new Person(33, "Harry", "Buck");
+        Person p3 = new Person(25, "Ken", "Doe");
+        Person p4 = new Person(27, "Karlie", "Doe");
+        Person p5 = new Person(44, "Jerry", "Cann");
+
+        //Create relations
+
+            //Harry & Mary are Married
+        p1.addRelation("married to", p2);
+        p2.addRelation("married to", p1);
+
+            //Ken & Karlie are married
+        p3.addRelation("married to", p4);
+        p4.addRelation("married to", p3);
+
+            //Karlie and Jerry are Coworkers
+        p4.addRelation("coworkers with", p5);
+        p5.addRelation("coworkers with", p4);
+
+            //Mary and Jerry are coworkers
+        p1.addRelation("coworkers with", p5);
+        p5.addRelation("coworkers with", p1);
+
+            //Mary and Karlie are coworkers
+        p1.addRelation("coworkers with", p4);
+        p4.addRelation("coworkers with", p1);
+
+        //Print relations
+        System.out.println(p1.accept(relVisit));
+        System.out.println(p2.accept(relVisit));
+        System.out.println(p3.accept(relVisit));
+        System.out.println(p4.accept(relVisit));
+        System.out.println(p5.accept(relVisit));
+
     }
 }
